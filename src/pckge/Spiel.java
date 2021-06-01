@@ -16,6 +16,7 @@ public class Spiel {
 	private int turn, firstNum, secondNum;
 	private int[] fplayer, splayer;
 	private Random random = new Random();
+	private boolean gameOver;
 
 	public Spiel() {
 		p1Score = 0;
@@ -33,7 +34,7 @@ public class Spiel {
 	public void neuZufall() {
 		int indx = zList.size();
 		int zz;
-		if (range.equals("W¸rfel")) {
+		if (range.equals("W√ºrfel")) {
 			zz = random.nextInt(6) + 1;
 		} else {
 			zz = random.nextInt(10);
@@ -122,17 +123,21 @@ public class Spiel {
 		secondNum = Integer.parseInt(scnd);
 		int winner;
 
-		if (spielArt.equals("Groﬂe Hausnummer")) {
+		if (spielArt.equals("Gro√üe Hausnummer")) {
 			winner = firstNum == secondNum ? NO_ONE_WINNS : firstNum > secondNum ? P1_WINNS : P2_WINNS;
 		} else {
 			winner = firstNum == secondNum ? NO_ONE_WINNS : firstNum < secondNum ? P1_WINNS : P2_WINNS;
 		}
-
-		if (winner != 0) {
-			if (winner == 1) {
-				p1Score++;
-			} else {
-				p2Score++;
+		
+		if(!gameOver){
+			if (winner != 0) {
+				if (winner == 1) {
+					p1Score++;
+					gameOver = true;
+				} else {
+					p2Score++;
+					gameOver = true;
+				}
 			}
 		}
 		return winner;
@@ -140,6 +145,7 @@ public class Spiel {
 	}
 
 	public void gameRestart() {
+		gameOver = false;
 		zList = new ArrayList<>();
 		if (zufallsZahl != -1) {
 			zList.add(zufallsZahl);
@@ -187,14 +193,14 @@ public class Spiel {
 			}
 
 		} else if (spielModus.split("-")[1].equals("schwer")) {
-			int best = spielArt.equals("Groﬂe Hausnummer") ? (range.equals("Kegel") ? 9 : 6)
+			int best = spielArt.equals("Gro√üe Hausnummer") ? (range.equals("Kegel") ? 9 : 6)
 					: (range.equals("Kegel") ? 0 : 1);
-			int worst = spielArt.equals("Groﬂe Hausnummer") ? (range.equals("Kegel") ? 0 : 1)
+			int worst = spielArt.equals("Gro√üe Hausnummer") ? (range.equals("Kegel") ? 0 : 1)
 					: (range.equals("Kegel") ? 9 : 6);
 			int mitte = (best + worst) / 2;
 
 
-			int ga = spielArt.equals("Groﬂe Hausnummer") ? -1 : 1;
+			int ga = spielArt.equals("Gro√üe Hausnummer") ? -1 : 1;
 			for (int i = 0; i < 3; i++) {
 
 				if ((zufallsZahl == best || zufallsZahl == best + (1 * ga)) && splayer[i] == -1) {
